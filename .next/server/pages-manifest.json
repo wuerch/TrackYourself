@@ -1,13 +1,13 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/": "pages/index.html",
   "/exercises": "pages/exercises.html",
+  "/about": "pages/about.html",
+  "/": "pages/index.html",
   "/kalorien": "pages/kalorien.html",
+  "/settings": "pages/settings.html",
   "/register": "pages/register.html",
   "/weights": "pages/weights.html",
-  "/about": "pages/about.html",
-  "/settings": "pages/settings.html",
   "/_document": "pages/_document.js",
   "/404": "pages/404.html"
 }

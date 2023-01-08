@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/p-pvaOjhB4z5ZXcbIloha/_buildManifest.js",
-    "static/p-pvaOjhB4z5ZXcbIloha/_ssgManifest.js"
+    "static/zmgapBAsLFfIURLSoiYz1/_buildManifest.js",
+    "static/zmgapBAsLFfIURLSoiYz1/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "pages": {
@@ -40,14 +40,14 @@
       "static/chunks/framework-114634acb84f8baa.js",
       "static/chunks/main-ee0cf4b7f81d7c24.js",
       "static/chunks/343-e802f3a1871bcf55.js",
-      "static/chunks/pages/exercises-ea0e0abd6c9b6961.js"
+      "static/chunks/pages/exercises-02db3747bc5c65ed.js"
     ],
     "/kalorien": [
       "static/chunks/webpack-0b5d8249fb15f5f3.js",
       "static/chunks/framework-114634acb84f8baa.js",
       "static/chunks/main-ee0cf4b7f81d7c24.js",
       "static/chunks/343-e802f3a1871bcf55.js",
-      "static/chunks/pages/kalorien-d93f839870fcd3e2.js"
+      "static/chunks/pages/kalorien-93bc3f5035d93143.js"
     ],
     "/register": [
       "static/chunks/webpack-0b5d8249fb15f5f3.js",
@@ -59,14 +59,14 @@
       "static/chunks/webpack-0b5d8249fb15f5f3.js",
       "static/chunks/framework-114634acb84f8baa.js",
       "static/chunks/main-ee0cf4b7f81d7c24.js",
-      "static/chunks/pages/settings-c129e0528f71fafe.js"
+      "static/chunks/pages/settings-2926308ce0ca0bdc.js"
     ],
     "/weights": [
       "static/chunks/webpack-0b5d8249fb15f5f3.js",
       "static/chunks/framework-114634acb84f8baa.js",
       "static/chunks/main-ee0cf4b7f81d7c24.js",
       "static/chunks/343-e802f3a1871bcf55.js",
-      "static/chunks/pages/weights-311ef950dc850dca.js"
+      "static/chunks/pages/weights-aa3fcd0d1284c890.js"
     ]
   },
   "ampFirstPages": []

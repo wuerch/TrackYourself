@@ -1,8 +1,10 @@
 import React, {useState, useContext, useEffect} from 'react'
 import UserContext from '../components/UserContext';
 import {DataPopup, DeletePopup} from '../components/settings'
+import { useRouter } from "next/router";
 
 function Settings() {
+    const router = useRouter()
     const [deletePopup, setDeletePopup] = useState(false)
     const [dataPopup, setDataPopup] = useState(false);
     const [confirmed, setConfirmed] = useState(true);
@@ -26,6 +28,8 @@ function Settings() {
             if(res.status==200){
                 setUserContext(res.user)
                 setConfirmed(res.user.sendDailyEmail)
+            }else{
+                router.push("/")
             }
             
         })

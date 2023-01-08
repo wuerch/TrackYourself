@@ -52,8 +52,10 @@ Object.defineProperty(exports, "__esModule", ({
 const _interopRequireDefault = (__webpack_require__(2648)/* ["default"] */ .Z);
 const _react = __webpack_require__(6689);
 const _userContext = /*#__PURE__*/ _interopRequireDefault(__webpack_require__(9351));
+const _router = __webpack_require__(1853);
 async function handleContext() {
     const { userContext , setUserContext  } = (0, _react.useContext)(_userContext.default);
+    const router = (0, _router.useRouter)();
     (0, _react.useEffect)(()=>{
         if (!userContext) {
             fetch("/api/user", {
@@ -65,6 +67,8 @@ async function handleContext() {
             }).then((res)=>res.json()).then((res)=>{
                 if (res.status == 200) {
                     setUserContext(res.user);
+                } else {
+                    router.push("/");
                 }
             });
         }
