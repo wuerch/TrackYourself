@@ -1,9 +1,8 @@
 const schedule = require('node-schedule')
-const User = require('../../models/userdata.model.js');
-const {sendEmailScript} = require('./sendEmail.js');
+const User = require('../../../models/userdata.model.js');
 const { sendMail } = require('./sendMail.js');
 
-schedule.scheduleJob("0 19 * * *", async () => { //"0 16 * * *" => everyday at 16 o'clock
+schedule.scheduleJob("0 20 * * *", async () => { //"0 16 * * *" => everyday at 16 o'clock
 
     const users = await User.find({sendDailyEmail: true}); //GETTING ALL THE USERS WHERE sendDailyEmail == true
 
@@ -15,7 +14,6 @@ schedule.scheduleJob("0 19 * * *", async () => { //"0 16 * * *" => everyday at 
     const dateToday = new Date();
     dateToday.setHours(hours = 1, min=0, sec=0, ms=0 );
 
-    //console.log("Day today: " + dateToday + "\nDate last week: " + dateLastWeek.toString());
 
     //SENDING FOR EACH USER A EMAIL
     users.forEach((user) => {
@@ -31,9 +29,6 @@ schedule.scheduleJob("0 19 * * *", async () => { //"0 16 * * *" => everyday at 
         const kalorienToday = user.kalorien.filter(tag => tag.date == dateToday.toString());
 
 
-        //console.log(user.weights)
-        //console.log("Weight last week: " + weightLastWeek + "Your weight today: " + weightToday)
-
         sendMail(
             dateToday, 
             dateLastWeek, 
@@ -47,4 +42,6 @@ schedule.scheduleJob("0 19 * * *", async () => { //"0 16 * * *" => everyday at 
         );
     
     })
+
+    console.log("CronJob successfull, sended all Emails.")
 })

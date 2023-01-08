@@ -11,10 +11,9 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-//INIT DB--------------------------------------------------------------------------------
-require('./functions/mongoose.js');
-//GOOGLE STRATEGY
-require('./functions/googleStrategy.js');
+require('./functions/mongoose.js'); //INIT DB
+require('./functions/googleStrategy.js'); //GOOGLE STRATEGY
+require("./functions/emails/dailyEmail/CronJob.js"); //Daily Email CronJob
 
 app
   .prepare()

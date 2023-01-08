@@ -15,7 +15,7 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
                     <p>Dein <b>Gewicht heute</b>: Du hast dein Gewicht heute nicht gemessen.</p>
             `
         }else if(weightToday.length > 0){
-            body = body + `<p>Dein <b>Gewicht letzte Woche</b>: Du hast dein Gewicht letzte Woche nicht gemessen.</p>
+            body = body + `<p>Dein <b>Gewicht letzte Woche</b>: Du hast letzte Woche dein Gewicht nicht gemessen.</p>
                     <p>Dein <b>Gewicht heute</b>: ${weightToday[0].weight} kg</p>
             `
         }else{
@@ -168,7 +168,7 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
     // define the email options
     let mailOptions = {
         from: '"Workout Tracker" <your-email@example.com>',
-        to: GOOGLE_SMTP_EMAIL,
+        to: recipient_email,
         subject: `Deine Ergebnisse am ${date.toLocaleDateString("de-DE", { weekday: 'long' })}, dem ${date.getDate()+"."+(date.getMonth() + 1)+"."+date.getFullYear()}`,
         html: body()
     };
@@ -178,10 +178,10 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
         if (error) {
             console.log(error);
         } else {
-            console.log(`Email sent: ${info.response}`);
+            // console.log(`Email sent: ${info.response}`);
         }
     });
-    console.log('Executed:' + weightLastWeek.length + ", " + weightToday.length + ", " + workoutLastWeek.length + ", " + workoutToday.length)
+    //console.log('Executed:' + weightLastWeek.length + ", " + weightToday.length + ", " + workoutLastWeek.length + ", " + workoutToday.length)
 
 
 }
