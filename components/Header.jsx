@@ -2,10 +2,7 @@ import React,{useState} from 'react'
 import Link from 'next/link'
 import { useRouter } from "next/router";
 
-import MonitorWeight from '@mui/icons-material/MonitorWeight';
-import Restaurant from '@mui/icons-material/Restaurant';
-import FitnessCenter from '@mui/icons-material/FitnessCenter';
-
+import { MdMonitorWeight, MdRestaurant, MdFitnessCenter } from "react-icons/md";
 
 function Header() {
   const router = useRouter()
@@ -16,9 +13,9 @@ function Header() {
     }
   return (
     <div className='flex justify-around'>
-        <Link className="basis-0 grow flex justify-center" href="/weights"><p><MonitorWeight />Weight</p></Link>
-        <Link className="basis-0 grow flex justify-center" href="/kalorien"><p><Restaurant />Meals</p></Link>
-        <Link className="basis-0 grow flex justify-center" href="/exercises"><p><FitnessCenter />Exercises</p></Link>
+        <Link className="basis-0 grow flex justify-center" href="/weights"><p><MdMonitorWeight />Weight</p></Link>
+        <Link className="basis-0 grow flex justify-center" href="/kalorien"><p><MdRestaurant />Meals</p></Link>
+        <Link className="basis-0 grow flex justify-center" href="/exercises"><p><MdFitnessCenter />Exercises</p></Link>
         <div className="basis-0 grow flex justify-center" onClick={() => setToggle((prev) => !prev)}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 hover:cursor-pointer">
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
