@@ -2,7 +2,7 @@ const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const User = require('../models/userdata.model.js')
-const Leads = require('../models/leads.model.js')
+const Waitlist = require('../models/waitlist.model.js')
 const nodemailer = require('nodemailer');
 const { userDataEmail } = require("../functions/emails/userDataEmail.js");
 
@@ -24,6 +24,14 @@ function verifyToken(req, res){
 }
 
 function routes(app) {
+    router.post("/waitlist", async (req,res) => {
+
+        await Waitlist.create({email: req.body.email});
+
+        res.json({status: 200})
+        
+  
+    })
     
     router.get("/user", async (req,res) => {
       const userData = verifyToken(req, res);
@@ -379,8 +387,6 @@ function routes(app) {
             res.json({status: 200});
         }
     })
-
-
   
     return router;
   };

@@ -113,9 +113,9 @@ function AddKalorien(props) {
     <div>
         <form className="text-black flex flex-col md:flex-row w-[80%] mx-[10%]" action="/api/workouts" method="POST">
           <input onChange={handleChange} className="mt-2 rounded h-8 w-[100%]" type="date" name="date" placeholder='Date' value={date}></input>
-          <input onChange={handleChange} className="mt-2 rounded h-8 w-full" name="mahlzeit" placeholder='Mahlzeit' value={mahlzeit.mahlzeit}></input>
+          <input onChange={handleChange} className="mt-2 rounded h-8 w-full" name="mahlzeit" placeholder='Meal' value={mahlzeit.mahlzeit}></input>
           <input onChange={handleChange} className="mt-2 rounded h-8 w-full" name="gewicht" placeholder='Gramm' value={mahlzeit.gewicht}></input>
-          <input onChange={handleChange} className="mt-2 rounded h-8 w-full" name="kalorien" placeholder='Kalorien' value={mahlzeit.kalorien}></input>
+          <input onChange={handleChange} className="mt-2 rounded h-8 w-full" name="kalorien" placeholder='Calories' value={mahlzeit.kalorien}></input>
           <button onClick={handleSubmit} className="border-[1px] rounded mt-2 h-8 w-full bg-[#369623]"><p className='text-white'>Add</p></button>
         </form>
     </div>

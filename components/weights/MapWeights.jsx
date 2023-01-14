@@ -41,8 +41,8 @@ function MapWeights() {
 
       {userContext ? userContext.weights.length > 0 ? <div>
             <div className='flex justify-around'>
-              <p className='basis-0 grow'>Datum</p>
-              <p className='basis-0 grow'>Gewicht</p>
+              <p className='basis-0 grow'>Date</p>
+              <p className='basis-0 grow'>Weight</p>
               <p className='basis-0 grow'>Delete</p>
             </div>    
             <hr/>       

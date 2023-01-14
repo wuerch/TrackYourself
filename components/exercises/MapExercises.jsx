@@ -66,10 +66,10 @@ function MapExercises(props) {
               {workout.exercises ? workout.exercises.length > 0 ? <div>
                 <p className='gradient'>{workout.date.slice(0,10)}</p>
                 <div className='flex justify-around'>
-                    <p className='basis-0 grow'>Übung</p>
+                    <p className='basis-0 grow'>Exercise</p>
                     <p className='basis-0 grow whitespace-nowrap'>Sets x Reps</p>
                     {/* <p className='basis-0 grow'>Gewicht</p> */}
-                    <p className='basis-0 grow'>Länge</p>
+                    <p className='basis-0 grow'>Duration</p>
                     <div className='basis-0 grow-[0.5]'><p>Delete</p></div>
                 </div>
                 <hr/>      

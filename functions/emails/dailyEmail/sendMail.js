@@ -3,12 +3,12 @@ const nodemailer = require('nodemailer');
 function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightToday, workoutLastWeek, workoutToday, kalorienLastWeek, kalorienToday){
 
     function formatWeight(){
-        var body = "<h1>Gewicht</h1>"
+        var body = "<h1>Your Weight:</h1>"
 
         if(weightLastWeek.length > 0 && weightToday.length > 0){
-            body = body + `<p>Dein <b>Gewicht letzte Woche</b>: ${weightLastWeek[0].weight} kg</p>
-                    <p>Dein <b>Gewicht heute</b>: ${weightToday[0].weight} kg<p>
-                    <p>Das ist ein <b>Unterschied</b> von: <b>${weightToday[0].weight - weightLastWeek[0].weight} kg</b></p>
+            body = body + `<p>Your <b>Weight last week</b> was: ${weightLastWeek[0].weight} kg</p>
+                    <p>Your <b>Weight today</b> is: ${weightToday[0].weight} kg<p>
+                    <p>That's a <b>Difference</b> of: <b>${(weightToday[0].weight - weightLastWeek[0].weight).toFixed(2)} kg</b></p>
             `
         }else if(weightLastWeek.length > 0){
             body = body + `<p>Dein <b>Gewicht letzte Woche</b>: ${weightLastWeek.weight} kg</p>
@@ -32,35 +32,37 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
             for(i = 0; i<array[0].mahlzeiten.length; i++){
                 //output = output + array[0].exercises[i]
 
-                output = output + `<p>Mahlzeit: ${array[0].mahlzeiten[i].mahlzeit}</p>`
+                output = output + `<p>Meal: ${array[0].mahlzeiten[i].mahlzeit}</p>`
                 if(array[0].mahlzeiten[i].weight){
                     output = output + `
-                        <p>Gewicht: ${array[0].mahlzeiten[i].gewicht} g</p>
+                        <p>Gramm: ${array[0].mahlzeiten[i].gewicht} g</p>
                     `
                 }
                 if(array[0].mahlzeiten[i].kalorien){
                     output = output + `
-                        <p>Kaloren: ${array[0].mahlzeiten[i].kalorien} kcal</p>
+                        <p>Calories: ${array[0].mahlzeiten[i].kalorien} kcal</p>
                     `
                     kcalTotal = kcalTotal + array[0].mahlzeiten[i].kalorien;
                 }
                 output = output + `
                 <br>
-                <p>Das sind <b>insgesamt ${kcalTotal} kcal</b>.</p>
-                <br>
+                
+                
                 `
             }
-
+            output = output + `
+            <p>That's in <b>total: ${kcalTotal} kcal</b>.</p>
+            <br>`
             return output
         }
-        var body = "<h1>Kalorien</h1>";
+        var body = "<h1>Your Calories:</h1>";
         
 
         if(kalorienLastWeek.length > 0 && kalorienToday.length > 0){
-            body = body + `<p>Deine <b>Mahlzeiten letzte Woche</b>:</p>
+            body = body + `<p>Your <b>Calories last week</b>:</p>
                     <hr>
                     ${formattedMahlzeit(kalorienLastWeek)}
-                    <p>Deine <b>Mahlzeiten heute</b>:<p>
+                    <p>Your <b>Calories today</b>:<p>
                     <hr>
                     ${formattedMahlzeit(kalorienToday)}
             `
@@ -71,8 +73,8 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
                     <p>Du hast heute dein Essen nicht gemessen.<p>
             `
         }else if(kalorienToday.length > 0){
-            body = body + `<p>Du hast <b>letzte Woche</b> dein <b>Essen nicht gemessen</b>.</p>
-                    <p>Deine <b>Mahlzeiten heute</b>:<p>
+            body = body + `<p>You <b>didn't track your Calories last week</b>.</p>
+                    <p>Your <b>Calories today</b>:<p>
                     <hr>
                     ${formattedMahlzeit(kalorienToday)}
             `
@@ -143,7 +145,7 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
     function body(){
 
         return (`
-            <h1>Deine Ergebnisse am ${date.toLocaleDateString("de-DE", { weekday: 'long' })}, dem ${date.getDate()+"."+(date.getMonth() + 1)+"."+date.getFullYear()}</h1>
+            <h1>Your Results from ${date.toLocaleDateString("en-EN", { weekday: 'long' })}, the ${date.getDate()+"th of "+ date.toLocaleString('default', { month: 'long' })}</h1>
                 ${formatWeight()}
                 ${formatKalorien()}
                 ${formatÜbungen()}
@@ -168,8 +170,8 @@ function sendMail(date, dateLastWeek, recipient_email, weightLastWeek, weightTod
     // define the email options
     let mailOptions = {
         from: '"Workout Tracker" <your-email@example.com>',
-        to: recipient_email,
-        subject: `Deine Ergebnisse am ${date.toLocaleDateString("de-DE", { weekday: 'long' })}, dem ${date.getDate()+"."+(date.getMonth() + 1)+"."+date.getFullYear()}`,
+        to: GOOGLE_SMTP_EMAIL,
+        subject: `Your Results from ${date.toLocaleDateString("en-EN", { weekday: 'long' })}, the ${date.toLocaleString('default', { month: 'long' })}`,
         html: body()
     };
 

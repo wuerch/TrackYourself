@@ -68,9 +68,9 @@ function MapKalorien() {
                       {tag.mahlzeiten ? tag.mahlzeiten.length > 0 ? <div>
                         <p className='gradient'>{tag.date.slice(0,10)}</p>
                         <div className="flex justify-around">
-                          <p className='basis-0 grow'>Mahlzeit</p>
+                          <p className='basis-0 grow'>Meal</p>
                           <p className='basis-0 grow'>Gramm</p>
-                          <p className='basis-0 grow'>Kalorien</p>
+                          <p className='basis-0 grow'>Calories</p>
                           <p className='basis-0 grow-[0.5]'>Delete</p>
                         </div>
                       <hr/>

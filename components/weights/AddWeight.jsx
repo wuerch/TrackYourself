@@ -55,7 +55,7 @@ function AddWeight(props) {
     <div>
         <form className="text-black flex flex-col md:flex-row w-[80%] mx-[10%]" action="/api/weights" method="POST">
                 <input onChange={handleChange} className="mt-2 rounded h-8 w-full" type="date" name="date" placeholder='Date' value={date}></input>
-                <input onChange={handleChange} className="mt-2 rounded h-8 w-full" type="text" name="weight" placeholder='Gewicht' value={weight}></input>
+                <input onChange={handleChange} className="mt-2 rounded h-8 w-full" type="text" name="weight" placeholder='Weight in kg' value={weight}></input>
                 <button onClick={handleSubmit} className="border-[1px] rounded mt-2 h-8 w-full bg-[#369623] mb-2"><p className='text-white'>Add</p></button>
         </form>
     </div>

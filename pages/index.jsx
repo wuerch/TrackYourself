@@ -1,119 +1,95 @@
-import Head from "next/head";
+import React, {useEffect} from 'react'
 import Link from "next/link";
 import Image from 'next/image';
+import Waitlist from '../components/Waitlist'
+import Cookies from 'js-cookie';
 import { useRouter } from "next/router";
 
-import React, {useState, useEffect, useContext} from 'react'
-import Cookies from 'js-cookie';
-import GoogleButton from '../assets/GoogleButton.png'
-import Popup from '../components/Popup'
+import {Exercises, Meals, Weights, Stretching, Email} from '../assets/index'
 
-function Index (){
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("");
+function Index() {
+    const router = useRouter()
 
-  const [emailConfirmed, setEmailConfirmed] = useState(true)
-  const [credentialsIncorrect, setCredentialsIncorrect] = useState(false)
-
-  function handleChange ( event ) {
-    var eventName = event.target.name
-
-    if( eventName === "email") {
-        setEmail(event.target.value)
-    } else if ( eventName === "password") {
-        setPassword(event.target.value)
-    }
-  }
-
-
-  async function handleSubmit(e){
-      e.preventDefault()
-  
-      await fetch('/auth/login', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      }).then((res) => res.json()
-      ).then((res) => { 
-        if(res.status==401){
-            setEmailConfirmed((prev)=> !prev)
-        }  
-        if(res.status==200){
-            router.push("/weights")
+    useEffect(() => {
+        const token = Cookies.get('x-auth-cookie');
+      
+        if(token){
+    
+          fetch("/auth/access", {
+            method: 'POST',
+            credentials: 'include', 
+            headers: { 
+              "Content-Type" : "application/json",
+              'Accept': 'application/json'
+            },
+          }).then(res => {
+            return res.json()    
+          }).then(res => {
+            if(res.status == 200){
+              router.push("/weights")
+              console.log("200")
+            }else{
+              console.log(res)
+            }
+          })
+      
         }
-        if(res.status==400){
-            setCredentialsIncorrect((prev) => !prev)
-            setEmail("")
-            setPassword("")
-        }
-      })
-  }
-  useEffect(() => {
-    const token = Cookies.get('x-auth-cookie');
-  
-    if(token){
+    
+      },[])
+  return (
+    <div>
+        <div>
+            <h1 className='text-[48px] mt-8'>Lose weight, get fit and stay fit</h1>
+            <h2 className='mb-4'>You will:</h2>
+            <ul>
+                <li>• have <b>more Energy</b></li>
+                <li>• <b>hold your weight consistently</b></li>
+                <li>• learn with <b>less effort</b></li>
+                <li>• be <b>healthy forever</b></li>
+                <p className='mt-4'>... without Jojo-Effect!</p>
+            </ul>
+            <Waitlist />
+        </div>
 
-      fetch("/auth/access", {
-        method: 'POST',
-        credentials: 'include', 
-        headers: { 
-          "Content-Type" : "application/json",
-          'Accept': 'application/json'
-        },
-      }).then(res => {
-        return res.json()    
-      }).then(res => {
-        if(res.status == 200){
-          router.push("/weights")
-          console.log("200")
-        }else{
-          console.log(res)
-        }
-      })
-  
-    }
 
-  },[])
 
- 
+        <div>
+            <h1 className='text-[48px] mt-8'>How does it work?</h1>
 
-  return(
-  <div className="flex flex-col items-center justify-center h-screen">
-    <Head>
-      <title>Home</title>
-    </Head>
-    {emailConfirmed === false ? <Popup cbFunction={() => {setEmailConfirmed((prev) => !prev);}} data="Die Email ist noch nicht aktiviert." /> : ""}
-    {credentialsIncorrect === true ? <Popup cbFunction={() => {setCredentialsIncorrect((prev) => !prev);}} data="Die Daten stimmen leider nicht." /> : ""}
+            <p>You get access to an app in the appstore, there you can:</p>
+            <ul>
+                <li className='my-4 text-[24px]'>• track your Weight</li>
+                <div className='w-[60%] md:w-[20%] mx-[20%] md:mx-[40%]'><Image alt="Weights Image" src={Weights} /></div>
+        
+                <li className='my-4 text-[24px]'>• track your Calories</li>
+                <div className='w-[60%] md:w-[20%] mx-[20%] md:mx-[40%]'><Image alt="Meals Image" src={Meals} /></div>
+                <li className='my-4 text-[24px]'>• track your Exercises</li>
+                <div className='w-[60%] md:w-[20%] mx-[20%] md:mx-[40%]'><Image alt="Exercises Image" src={Exercises} /></div>
+                <li className='my-4 text-[24px]'>• get <b>Access to Courses</b> about Nutrition and Stretching</li>
+                <div className='w-[60%] md:w-[20%] mx-[20%] md:mx-[40%]'><Image alt="Stretching Image" src={Stretching} /></div>
+                <li className='my-4 text-[24px]'>• get <b>daily update emails from your results</b></li>
+                <div className='w-[60%] md:w-[20%] mx-[20%] md:mx-[40%]'><Image alt="Email Image" src={Email} /></div>
 
-    <Image className="cursor-pointer w-[240px]"src={GoogleButton} onClick={() => router.push("/auth/google")}></Image>
+                
+            </ul>
 
-    <div className='flex w-60 md:w-80 items-center'>
-            <hr className='h-[2px] basis-0 grow'/>
-            <p className='p-2'>or</p>
-            <hr className='h-[2px] basis-0 grow'/>
+
+            <div>
+                {/* <Link href="/login"><button className="mt-4 border-[1px] rounded mytransition transition"><p className='gradient p-2'>Test the app in the browser</p></button></Link> */}
+            </div>
+            <Waitlist />
+            <div className='mb-14'/>
+            
+        </div>
+
+
+
     </div>
-
-    <form onSubmit={handleSubmit} action="/auth/login" method="POST" className="flex flex-col">
-      <input onChange={handleChange} placeholder="beispiel@example.com" name="email" value={email} className="rounded mt-2 text-black w-40"></input>
-      <input type="password" onChange={handleChange} placeholder="Passwort" name="password" value={password} className="rounded mt-2 text-black w-40"></input>
-      <button className="border-[1px] rounded mt-4"><h1 className='gradient px-4 text-[32px] font-semibold mytransition transition'>Login</h1></button>
-    </form>
-    <p className='mt-4'>Du hast noch keinen Account?</p>
-    <Link href="/register" className="mt-4 border-[1px] rounded transition"><p className="p-2">Erstell ein Account</p></Link>
-    
-    
-  </div>
   )
 }
 
-export default Index;
+export default Index
+
 
 Index.getLayout = function PageLayout(page){
 	return(
