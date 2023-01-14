@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
-import ClearIcon from '@mui/icons-material/Clear';
 import UserContext from '../UserContext';
+import { MdClear} from "react-icons/md";
+
 
 function MapWeights() {
     const {userContext, setUserContext} = useContext(UserContext);
@@ -53,7 +54,7 @@ function MapWeights() {
                     <div key={index} index={weight._id} className='flex justify-around'>
                       <p className='basis-0 grow'>{weight.date === null? "" : weight.date.slice(8,10) + "." + weight.date.slice(5,7)}</p>
                       <p className='basis-0 grow'>{weight.weight} kg</p>
-                      <div className='basis-0 grow'><button className='bg-[#BA1000] hover:cursor-pointer' onClick={(props) => handleDelete({weight})}><ClearIcon /></button></div>
+                      <div className='basis-0 grow'><button className='bg-[#BA1000] hover:cursor-pointer' onClick={(props) => handleDelete({weight})}><MdClear /></button></div>
                     </div>
                   )
           }).reverse() : "" : ""

@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react'
 import UserContext from '../UserContext';
-import ClearIcon from '@mui/icons-material/Clear';
+import { MdClear} from "react-icons/md";
 
 function MapExercises(props) {
   const {userContext, setUserContext} = useContext(UserContext);
@@ -84,7 +84,7 @@ function MapExercises(props) {
                       <p className='basis-0 grow'>{exercise.sets | exercise.reps ? exercise.sets + (exercise.reps ? " x " +exercise.reps : "") : ""}</p>
                       {/* <p className='basis-0 grow'>{exercise.weight ? exercise.weight + " kg" : ""}</p> */}
                       <p className='basis-0 grow'>{exercise.duration ? exercise.duration + " min" : ""}</p>
-                      <div className='basis-0 grow-[0.5] flex justify-center'><div onClick={() => handleDelete({exercise}, workout.date)} className='bg-[#BA1000] w-min hover:cursor-pointer'><ClearIcon /></div></div>
+                      <div className='basis-0 grow-[0.5] flex justify-center'><div onClick={() => handleDelete({exercise}, workout.date)} className='bg-[#BA1000] w-min hover:cursor-pointer'><MdClear /></div></div>
                     </div>
                   )
               }) : "" : ""}

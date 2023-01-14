@@ -1,6 +1,6 @@
 import React, {useEffect, useContext} from 'react'
 import UserContext from '../UserContext';
-import ClearIcon from '@mui/icons-material/Clear';
+import { MdClear} from "react-icons/md";
 
 function MapKalorien() {
     const {userContext, setUserContext} = useContext(UserContext);
@@ -83,7 +83,7 @@ function MapKalorien() {
                             <p className='basis-0 grow'>{mahlzeit.mahlzeit}</p>
                             <p className='basis-0 grow'>{mahlzeit.gewicht} g</p>
                             <p className='basis-0 grow'>{mahlzeit.kalorien} kcal</p>
-                            <div className='basis-0 grow-[0.5] flex justify-center'><div className='w-min h-min bg-[#BA1000] hover:cursor-pointer' onClick={() => handleDelete({mahlzeit}, tag.date)}><ClearIcon /></div></div>
+                            <div className='basis-0 grow-[0.5] flex justify-center'><div className='w-min h-min bg-[#BA1000] hover:cursor-pointer' onClick={() => handleDelete({mahlzeit}, tag.date)}><MdClear /></div></div>
                         </div>
                         )
                     })}
