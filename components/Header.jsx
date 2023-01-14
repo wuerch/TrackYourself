@@ -2,7 +2,10 @@ import React,{useState} from 'react'
 import Link from 'next/link'
 import { useRouter } from "next/router";
 
-import {MonitorWeight , Restaurant, FitnessCenter} from '@mui/icons-material/';
+import MonitorWeight from '@mui/icons-material/MonitorWeight';
+import Restaurant from '@mui/icons-material/Restaurant';
+import FitnessCenter from '@mui/icons-material/FitnessCenter';
+
 
 function Header() {
   const router = useRouter()
