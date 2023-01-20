@@ -21,17 +21,59 @@ function routes(app) {
         );
         return token;
     };
-    router.post('/cookie', async function(req,res){
-        res.status(200).redirect(`${process.env.CLIENT_URL}/auth/cookie2`);
+    function handleUserData(user){
+        //HANDLE NEW WEEK
+        const year = new Date().getFullYear()
+        var days = Math.floor((new Date() - new Date(year, 0, 1)) / (24 * 60 * 60 * 1000));
+        var week = Math.ceil(days / 7);
 
-    })
+        if(!user.workoutList){
+            user.workoutList = [];        
+        }
+
+        let obj
+        user.workoutList ? obj = user.workoutList.find(o => o.year === year && o.week === week) : ""
+
+        if(!obj){
+            const newWeek = user.defaultWorkoutList.map((exercise, index) => {
+                return {exercise: exercise, id: index +1, checked: false}
+            })
+            obj = {
+                year: year,
+                week: week,
+                exercises: newWeek
+            }
+
+            user.workoutList.push(obj)
+            console.log(JSON.stringify(user.workoutList))
+            // data = data.map((item, index) => ({ ...item, id: index + 1 }))
+        }
+
+        
+        const data = {
+            weights: user.weights,
+            kalorien: user.kalorien,
+            workouts: user.workouts,
+            sendDailyEmail: user.sendDailyEmail,
+            base_url: process.env.CLIENT_URL,
+            defaultWorkoutList: user.defaultWorkoutList,
+            workoutList: user.workoutList
+        }
+        return data
+
+    }
+    // router.post('/cookie', async function(req,res){
+    //     res.status(200).redirect(`${process.env.CLIENT_URL}/auth/cookie2`);
+
+    // })
     router.post('/login', async (req,res)=> {
         
         if(req.body.email == ''){
             return res.json({ status: 400}) 
         }
+        
         //query mongoose model for the email
-        const user = await User.findOne({
+        var user = await User.findOne({
             email: req.body.email,
         })
         if (!user) {
@@ -49,10 +91,20 @@ function routes(app) {
 
         if(isPasswordValid == true){
             const token = generateJWT(user);
+
+            const data = {
+                weights: user.weights,
+                kalorien: user.kalorien,
+                workouts: user.workouts,
+                sendDailyEmail: user.sendDailyEmail,
+                base_url: process.env.CLIENT_URL,
+                defaultWorkoutList: user.defaultWorkoutList,
+                workoutsList: user.workoutsList
+            }
         
             //SET THE COOKIE !!!
             res.cookie('x-auth-cookie', token);
-            res.json({ status: 200, weights: user.weights, workouts: user.workouts, sendEmail: user.sendDailyEmail, kalorien: user.kalorien})
+            res.json({ status: 200, user: data, 'x-auth-cookie': token})
         }else{
             return res.json({ status: 400})
         }
@@ -133,15 +185,28 @@ function routes(app) {
     );
 
     router.post("/access", async function(req, res){
-
-        const token = req.cookies['x-auth-cookie'];
-        
-        await jwt.verify(token , `${process.env.JWT_KEY}`, (err, user) => {
+    
+        var token;
+        req.body['x-auth-token'] ? token = req.body['x-auth-token'] : token = req.cookies['x-auth-cookie'];
+                
+        await jwt.verify(token , `${process.env.JWT_KEY}`, async (err, user) => {
             if(err){
                 res.cookie('x-auth-cookie', {expires: Date.now()});
                 return res.json({ status: 403 })
             }else{
-                return res.json({ status: 200 })
+                //query mongoose model for the email
+                var user = await User.findOne({
+                    email: req.body.email,
+                })
+                if (!user) {
+                    return res.json({ status: 400}) //wenn kein User mit der Email gefunden wird:
+                }
+                if(user.confirmed == false){
+                    return res.json({status: 401})
+                }
+                const data = handleUserData(user);
+                return res.json({ status: 200, user: data})
+                
             }	
         });
 

@@ -5,7 +5,7 @@ const passport = require('passport'); //OAuth
 
 require('dotenv').config()
 
-const PORT = process.env.PORT || 3000;
+const PORT = /*process.env.PORT || */8000;
 const dev = process.env.NODE_ENV !== "production";
 
 const app = next({ dev });
@@ -13,7 +13,7 @@ const handle = app.getRequestHandler();
 
 require('./functions/mongoose.js'); //INIT DB
 require('./functions/googleStrategy.js'); //GOOGLE STRATEGY
-require("./functions/emails/dailyEmail/CronJob.js"); //Daily Email CronJob
+//require("./functions/emails/dailyEmail/CronJob.js"); //Daily Email CronJob
 
 app
   .prepare()

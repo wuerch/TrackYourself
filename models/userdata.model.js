@@ -37,6 +37,30 @@ const UserSchema = new mongoose.Schema(
 		}
 
 	  ],
+	  
+	  defaultWorkoutList: [
+		{	
+			_id: false,
+			exercise: {type: String},
+			checked: {type:Boolean, default: false},
+			id: {type:String, required: true, unique: true}
+		}
+	  ],
+	  workoutsList: [
+		{	
+			year: {type: Number},
+			week: {type: Number},
+			exercises: [
+				{	
+					id: {type:String, required: true, unique: true},
+					_id: false,
+					exercise: {type: String},
+					checked: {type: Boolean, default: false}
+				}
+			]
+		}
+
+	  ],
 	  kalorien: [
 		{
 			date: {type: Date, required: true},

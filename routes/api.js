@@ -7,31 +7,29 @@ const nodemailer = require('nodemailer');
 const { userDataEmail } = require("../functions/emails/userDataEmail.js");
 
 function verifyToken(req, res){
-  const token = req.cookies['x-auth-cookie'];
-  var userData;
-  if (token == null){
-      return res.json({status: 401})
-  }
-  jwt.verify(token , `${process.env.JWT_KEY}`, async (err, user) => {
+    var token;
+    req.body['x-auth-token'] ? token = req.body['x-auth-token'] : token = req.cookies['x-auth-cookie'];
 
-      if(err){
-      return res.json({status: 403})
-      }
-      //console.log(user)
-      userData = user
-  })
-  return userData
+    var userData;
+    if (token == null){
+        return res.json({status: 401})
+    }
+    jwt.verify(token , `${process.env.JWT_KEY}`, async (err, user) => {
+
+        if(err){
+        return res.json({status: 403})
+        }
+        userData = user
+    })
+    return userData
 }
 
 function routes(app) {
-    router.post("/waitlist", async (req,res) => {
 
-        await Waitlist.create({email: req.body.email});
-
-        res.json({status: 200})
-        
-  
-    })
+    // router.post("/waitlist", async (req,res) => {
+    //     await Waitlist.create({email: req.body.email});
+    //     res.json({status: 200})
+    // })
     
     router.get("/user", async (req,res) => {
       const userData = verifyToken(req, res);
@@ -45,6 +43,7 @@ function routes(app) {
             workouts: savedUser.workouts,
             sendDailyEmail: savedUser.sendDailyEmail,
             base_url: process.env.CLIENT_URL,
+            defaultWorkoutList: savedUser.defaultWorkoutList
           }
           return res.json({status: 200, user: data});
         }else{
@@ -267,6 +266,94 @@ function routes(app) {
     //     }
 
     // })
+  
+   
+    router.post("/workoutlist", async (req,res) => {
+        const userData = verifyToken(req,res);
+
+        if(userData){
+            const query = { "email": userData.email, "workoutsList.year": req.body.year, "workoutsList.week": req.body.week};
+        
+            const updateDocument = {
+                $set: { "workoutsList.$[obj].exercises": req.body.exercises},
+                
+            };
+            const options = {
+                arrayFilters: [
+                    {
+                    "obj.year": req.body.year,
+                    "obj.week": req.body.week
+                    },
+                ],
+            };
+            
+            await User.updateOne(query, updateDocument, options);
+            return res.json({status:200})  
+        }
+
+    })
+    router.post("/workoutlist/newexercise", async (req,res) => {
+        const userData = verifyToken(req,res);
+
+        if(userData){
+            //console.log(req.body)
+            const query = { "email": userData.email, "workoutsList.year": req.body.year, "workoutsList.week": req.body.week};
+
+            const updateDocument = {
+                $push: { "workoutsList.$[obj].exercises": req.body.exercise},
+                
+            };
+            const options = {
+                arrayFilters: [
+                    {
+                    "obj.year": req.body.year,
+                    "obj.week": req.body.week
+                    },
+                ],
+            };
+            
+            await User.updateOne(query, updateDocument, options);
+            return res.json({status:200})  
+
+            // await User.updateOne(
+            //     { email: userData.email }, 
+            //     { $push: { workoutsList: object} },
+            // );
+            // return res.json({status: 200})
+        }
+
+    })
+    router.post("/workoutlist/createweek", async (req,res) => {
+        const userData = verifyToken(req,res);
+        //console.log(req.body)
+
+        const object = {
+            year: req.body.year,
+            week: req.body.week,
+            exercises: req.body.defaultWorkoutList
+        }
+
+        await User.updateOne(
+            { email: userData.email }, 
+            { $push: { workoutsList: object} },
+        );
+        return res.json({status: 200})
+
+    })
+    
+    router.post("/defaultworkoutlist", async (req,res) => {
+        const userData = verifyToken(req,res);
+
+        if(userData){
+            await User.findOneAndUpdate(
+                { email: userData.email }, 
+                { $set: { defaultWorkoutList: req.body.defaultWorkoutList } },
+            );
+        }
+        //console.log("Setted")
+        return res.json({status:200});
+    })
+   
     router.post("/mahlzeit", async (req,res) => {
         const userData = verifyToken(req, res);
 
@@ -295,7 +382,7 @@ function routes(app) {
                 };
                     
                 await User.updateOne({"email": userData.email, "kalorien.date" : req.body.date}, updateDocument, options);
-                console.log("Created a new Mahlzeit.")
+                //console.log("Created a new Mahlzeit.")
             }else{
                 await User.updateOne({email: userData.email}, {$push: { "kalorien": {
                     date: req.body.date,
@@ -382,8 +469,8 @@ function routes(app) {
 
         if(userData){
             await User.updateOne({email: userData.email}, {sendDailyEmail: !req.body.checkbox});
-            console.log(req.body.checkbox)
-            console.log(await User.findOne({email: userData.email}))
+            //console.log(req.body.checkbox)
+            //console.log(await User.findOne({email: userData.email}))
             res.json({status: 200});
         }
     })
